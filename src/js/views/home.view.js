@@ -4,10 +4,9 @@ import JoinedChats from "../components/joinedChats";
 import AvailableChats from "../components/avaliableChats";
 import ViewTitle from "../components/shared/viewTitle";
 
-export default function Home() {
+export default function HomeView() {
   return (
-    <div className="content-wrapper">
-      <Navbar />
+    <>
       <div className="row no-gutters fh">
         <div className="col-3 fh">
           <JoinedChats />
@@ -17,6 +16,6 @@ export default function Home() {
           <AvailableChats />
         </div>
       </div>
-    </div>
+    </>
   );
 }
