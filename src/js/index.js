@@ -3,4 +3,7 @@ import ReactDOM from "react-dom";
 
 import App from "./app";
 
-ReactDOM.render(<App />, document.getElementById("electronChat"));
+import "bootstrap/dist/css/bootstrap.css";
+import "./index.scss";
+
+ReactDOM.render(<App />, document.getElementById("chatApp"));
