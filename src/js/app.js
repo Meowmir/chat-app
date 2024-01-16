@@ -1,23 +1,33 @@
 import React from "react";
-import HomeView from "./views/home.view";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import {Provider} from 'react-redux'
+
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
+import ConfigureStore from "./store";
+
+import RegisterView from "./views/register.view";
+import ChatView from "./views/chat.view";
 import SettingsView from "./views/settings.view";
 import LoginView from "./views/login.view";
-import RegisterView from "./views/register.view";
+import HomeView from "./views/home.view";
 
 export default function App() {
+  const store = ConfigureStore()
+
   return (
+    <Provider store={store}>
     <Router>
       <Navbar />
       <div className="content-wrapper">
-        <Routes>
-          <Route path="/settings" element={<SettingsView />} />
+        <Switch>
+          <Route path="/settings"><SettingsView /></Route>
           <Route path="/login" element={<LoginView />} />
           <Route path="/register" element={<RegisterView />} />
-          <Route path="/" element={<HomeView />} />
-        </Routes>
+          <Route path="/chat/:id" element={<ChatView />} />
+          <Route path="/"><HomeView /></Route>
+        </Switch>
       </div>
     </Router>
+    </Provider>
   );
 }

@@ -1,42 +1,44 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function Navbar() {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   return (
     <div className="chat-navbar">
       <nav className="chat-navbar-inner">
         <div className="chat-navbar-inner-left">
           <button
-            onClick={() => navigate(-1, { replace: true })}
+            onClick={() => history.goBack()}
             className="btn btn-outline-primary"
           >
             Back
           </button>
-          <button
-            onClick={() => navigate("/settings")}
+          <Link
+            to="/settings"
             className="btn btn-outline-success ml-2"
           >
             Settings
-          </button>
+          </Link>
         </div>
         <div className="chat-navbar-inner-right">
-          <span className="logged-in-user">Hi User</span>
+          <span className="logged-in-user">
+            Hi User
+          </span>
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => history.push('/register')}
             className="btn btn-outline-danger ml-2"
           >
-            Logout
+            Register
           </button>
-          <button
-            onClick={() => navigate("/login")}
+          <Link
+            to="/login"
             className="btn btn-outline-success ml-2"
           >
             Login
-          </button>
+          </Link>
         </div>
       </nav>
     </div>
-  );
+  )
 }
