@@ -20,11 +20,18 @@ export default function App() {
       <Navbar />
       <div className="content-wrapper">
         <Switch>
-          <Route path="/settings"><SettingsView /></Route>
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/register" element={<RegisterView />} />
-          <Route path="/chat/:id" element={<ChatView />} />
-          <Route path="/"><HomeView /></Route>
+          <Route path="/login" exact>
+            {<LoginView />}
+          </Route>
+          <Route path="/settings">
+            <SettingsView />
+          </Route>
+          <Route path="/chat/:id">
+            {<ChatView />}
+          </Route>
+          <Route path="/">
+            <HomeView />
+          </Route>
         </Switch>
       </div>
     </Router>
