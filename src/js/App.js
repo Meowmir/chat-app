@@ -1,18 +1,23 @@
-import React from "react";
-import {Provider} from 'react-redux'
+import React, { useEffect } from "react";
+import { Provider } from "react-redux";
 
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
 import ConfigureStore from "./store";
 
-import RegisterView from "./views/register.view";
-import ChatView from "./views/chat.view";
-import SettingsView from "./views/settings.view";
-import LoginView from "./views/login.view";
-import HomeView from "./views/home.view";
+import ChatView from "./views/chatView";
+import SettingsView from "./views/settingsView";
+import WelcomeView from "./views/welcomeView";
+import HomeView from "./views/homeView";
+import { listenToAuthChanges } from "./actions/auth";
+
+const store = ConfigureStore()
 
 export default function App() {
-  const store = ConfigureStore()
+
+  useEffect(() => {
+    store.dispatch(listenToAuthChanges())
+  }, []);
 
   return (
     <Provider store={store}>
@@ -20,16 +25,16 @@ export default function App() {
       <Navbar />
       <div className="content-wrapper">
         <Switch>
-          <Route path="/login" exact>
-            {<LoginView />}
+          <Route path="/" exact>
+            <WelcomeView />
           </Route>
           <Route path="/settings">
             <SettingsView />
           </Route>
           <Route path="/chat/:id">
-            {<ChatView />}
+            <ChatView />
           </Route>
-          <Route path="/">
+          <Route path="/home">
             <HomeView />
           </Route>
         </Switch>

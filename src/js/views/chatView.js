@@ -11,11 +11,11 @@ export default function ChatView() {
    return (
       <div className="row no-gutters fh">
         <div className="col-3 fh">
-          <ChatUsersList/>
+          <chatUsersList/>
         </div>
         <div className="col-9 fh">
-          <ViewTitle text={`Joined channel: ${id}`}/>
-          <ChatMessagesList/>
+          <viewTitle text={`Joined channel: ${id}`}/>
+          <chatMessagesList/>
         </div>
       </div>
   )
