@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import LoginForm from "../components/loginForm";
 import RegisterForm from "../components/registerForm";
+import LoadingView from "../components/shared/loadingView";
 
 export default function WelcomeView() {
   const [isLoginView, setIsLoginView] = useState(true)
@@ -14,7 +15,7 @@ export default function WelcomeView() {
     ['Already registered?', 'Login']
 
   if (isFetching){
-    return <h1>Loading...</h1>
+    return <LoadingView />
   }
 
   if (user) {
