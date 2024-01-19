@@ -1,7 +1,7 @@
-import firebase from 'firebase/app';
-import 'firebase/auth'
+import firebase from "firebase/app";
+import "firebase/auth";
 
-import db from '../db/firestore'
+import db from "../db/firestore";
 
 const createUserProfile = userProfile => {
   db
@@ -19,16 +19,16 @@ export const getUserProfile = uid =>
 
 
 export async function register({email, password, username, avatar}){
-  try {
-    const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
-    await createUserProfile({uid: user.uid, username, email, avatar, joinedChats: []})
-  } catch(error) {
-    return Promise.reject(error.message)
-  }
+  const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
+  const userProfile = {uid: user.uid, username, email, avatar, joinedChats: []}
+  await createUserProfile(userProfile)
+  return userProfile
 }
 
-export const login = ({email, password}) =>
-  firebase.auth().signInWithEmailAndPassword(email, password)
+export const login = async ({email, password}) => {
+  const { user } = await firebase.auth().signInWithEmailAndPassword(email, password)
+  return await getUserProfile(user.uid)
+}
 
 export const logout = () =>
   firebase.auth().signOut()

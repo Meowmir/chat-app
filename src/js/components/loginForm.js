@@ -1,13 +1,21 @@
 import React from "react";
 import { useForm } from 'react-hook-form'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/auth";
+import LoadingView from "./shared/loadingView";
 
 export default function LoginForm() {
   const { register, handleSubmit } = useForm()
   const dispatch = useDispatch()
+  const error = useSelector(({auth}) => auth.login.error)
+  const isFetching = useSelector(({auth}) => auth.login.isFetching)
+
   const onSubmit = data => {
     dispatch(loginUser(data))
+  }
+
+  if (isFetching){
+    return <LoadingView />
   }
 
   return (
@@ -39,8 +47,8 @@ export default function LoginForm() {
                 id="password"
               />
             </div>
-            {false && (
-              <div className="alert alert-danger small">Some error</div>
+            {error && (
+              <div className="alert alert-danger small">{error.message}</div>
             )}
             <button
               type="submit"
