@@ -46,7 +46,7 @@ module.exports = {
     extensions: [".js"],
   },
   output: {
-    filename: "app.js",
+    filename: "App.js",
     path: path.resolve(__dirname, "build", "js"),
   },
 };

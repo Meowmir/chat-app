@@ -1,16 +1,32 @@
 import React from "react";
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../actions/auth";
+import LoadingView from "./shared/loadingView";
 
-export default function LoginView() {
+export default function LoginForm() {
+  const { register, handleSubmit } = useForm()
+  const dispatch = useDispatch()
+  const error = useSelector(({auth}) => auth.login.error)
+  const isFetching = useSelector(({auth}) => auth.login.isFetching)
+
+  const onSubmit = data => {
+    dispatch(loginUser(data))
+  }
+
+  if (isFetching){
+    return <LoadingView />
+  }
+
   return (
-    <div className="centered-view">
-      <div className="centered-container">
-        <form onSubmit={() => {}} className="centered-container-form">
+        <form onSubmit={handleSubmit(onSubmit)} className="centered-container-form">
           <div className="header">Welcome here!</div>
           <div className="subheader">Login and chat with other people!</div>
           <div className="form-container">
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
+                ref={register}
                 type="email"
                 className="form-control"
                 id="email"
@@ -24,27 +40,23 @@ export default function LoginView() {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
+                ref={register}
                 type="password"
                 name="password"
                 className="form-control"
                 id="password"
               />
             </div>
-            {false && (
-              <div className="alert alert-danger small">Some error</div>
+            {error && (
+              <div className="alert alert-danger small">{error.message}</div>
             )}
-            <button type="submit" className="btn btn-outline-primary">
+            <button
+              type="submit"
+              className="btn btn-outline-primary"
+            >
               Login
             </button>
           </div>
         </form>
-        <small className="form-text text-muted mt-2">
-          Already registered?
-          <span onClick={() => {}} className="btn-link ml-2">
-            Login
-          </span>
-        </small>
-      </div>
-    </div>
   );
 }
