@@ -8,6 +8,7 @@ import ViewTitle from "../components/shared/viewTitle";
 
 import { fetchChats } from "../actions/chats";
 import { withBaseLayout } from "../../layout/base";
+import Notification from "../utils/notifications";
 
 function HomeView() {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ function HomeView() {
   const availableChats = useSelector(({ chats }) => chats.available)
 
   useEffect(() => {
+    Notification.setup()
     dispatch(fetchChats())
   }, [dispatch]);
 

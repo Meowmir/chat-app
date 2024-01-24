@@ -12,6 +12,7 @@ import ChatCreateView from "./views/chatCreateView";
 import { listenToAuthChanges } from "./actions/auth";
 import StoreProvider from "./store/storeProvider";
 import LoadingView from "./components/shared/loadingView";
+import { listenToConnectionChanges } from "./actions/app";
 
 function AuthRoute({children, ...rest}){
   const user = useSelector(({auth}) => auth.user)
@@ -33,10 +34,21 @@ const ContentWrapper = ({children}) =>  <div className="content-wrapper">{childr
 function ChatApp() {
   const dispatch = useDispatch()
   const isFetching = useSelector(({ auth }) => auth.isFetching)
+  const isOnline = useSelector(({app}) => app.isOnline)
 
   useEffect(() => {
-    dispatch(listenToAuthChanges())
+    const unSubAuth = dispatch(listenToAuthChanges())
+    const unSubConnection = dispatch(listenToConnectionChanges())
+
+    return () => {
+      unSubAuth()
+      unSubConnection()
+    }
   }, [dispatch]);
+
+  if (!isOnline) {
+    return <LoadingView message="App has been disconnected from internet. Please reconnect."/>
+  }
 
   if (isFetching) {
     return <LoadingView/>
