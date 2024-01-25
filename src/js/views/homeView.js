@@ -5,6 +5,7 @@ import ViewTitle from "../components/shared/viewTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats } from "../actions/chats";
 import { withBaseLayout } from "../../layout/base";
+import Notification from "../utils/notifications";
 
 
 function HomeView() {
@@ -12,6 +13,7 @@ function HomeView() {
   const chats = useSelector(({ chats }) => chats.items)
 
   useEffect(() => {
+    Notification.setup()
     dispatch(fetchChats())
   }, [dispatch]);
 
