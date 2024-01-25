@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import StoreProvider from "./store/storeProvider";
 
 import ChatView from "./views/chatView";
 import SettingsView from "./views/settingsView";
@@ -9,10 +9,11 @@ import WelcomeView from "./views/welcomeView";
 import HomeView from "./views/homeView";
 import ChatCreateView from "./views/chatCreateView";
 
-import { listenToAuthChanges } from "./actions/auth";
-import StoreProvider from "./store/storeProvider";
 import LoadingView from "./components/shared/loadingView";
 import { listenToConnectionChanges } from "./actions/app";
+
+import { listenToAuthChanges } from "./actions/auth";
+import { checkUserConnection } from "./actions/connection";
 
 function AuthRoute({children, ...rest}){
   const user = useSelector(({auth}) => auth.user)
