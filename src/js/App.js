@@ -36,6 +36,7 @@ function ChatApp() {
   const dispatch = useDispatch()
   const isFetching = useSelector(({ auth }) => auth.isFetching)
   const isOnline = useSelector(({app}) => app.isOnline)
+  const user = useSelector(({auth}) => auth.user)
 
   useEffect(() => {
     const unSubAuth = dispatch(listenToAuthChanges())
@@ -46,6 +47,17 @@ function ChatApp() {
       unSubConnection()
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    let unsubFromUserConnection
+    if(user?.uid) {
+      const unsubFromUserConnection = dispatch(checkUserConnection(user.uid))
+    }
+    return () => {
+      unsubFromUserConnection && unsubFromUserConnection()
+
+    }
+  }, [dispatch, ]);
 
   if (!isOnline) {
     return <LoadingView message="App has been disconnected from internet. Please reconnect."/>
