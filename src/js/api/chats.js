@@ -27,7 +27,7 @@ export const joinChat = async (userId, chatId) => {
 
 }
 
-export const subscribeToChat = (chatId, onSubscribe) => {
+export const subscribeToChat = (chatId, onSubscribe) =>
   db
     .collection('Chats')
     .doc(chatId)
@@ -35,5 +35,10 @@ export const subscribeToChat = (chatId, onSubscribe) => {
       const chat = {id: snapshot.id, ...snapshot.data()}
       onSubscribe(chat)
     })
-  return
-}
+
+export const subscribeToProfile = (uid, onSubscribe) =>
+  db
+    .collection('Profiles')
+    .doc(uid)
+    .onSnapshot(snapshot => onSubscribe(snapshot.data()))
+

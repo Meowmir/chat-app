@@ -39,14 +39,23 @@ export const createChat = (formData, userId) => async dispatch => {
   return chatId
 }
 
-export const subscribeToChat = chatId => dispatch => {
+export const subscribeToChat = chatId => dispatch =>
   api
-    .subscribeToChat(chatId, async chat => {
+    .subscribeToChat(chatId, async (chat) => {
 
       const joinedUsers = await Promise.all(chat.joinedUsers.map(async userRef => {
-        const userSnapshot = await userRef.get()
-        return userSnapshot.data()
+        const userSnapshot = await userRef.get();
+        return userSnapshot.data();
       }))
+
+      chat.joinedUsers = joinedUsers;
       dispatch({type: 'CHATS_SET_ACTIVE_CHAT', chat})
     })
-}
+
+export const subscribeToProfile = uid => dispatch =>
+  api
+    .subscribeToProfile(uid, user => {
+      console.log('changing profile!');
+      dispatch({type: 'CHATS_UPDATE_USER_STATE', user})
+    })
+
