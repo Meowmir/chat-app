@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+
 import JoinedChatsList from "../components/joinedChatsList";
 import AvailableChats from "../components/availableChatsList";
 import ViewTitle from "../components/shared/viewTitle";
-import { useDispatch, useSelector } from "react-redux";
+
 import { fetchChats } from "../actions/chats";
 import { withBaseLayout } from "../../layout/base";
 
-
 function HomeView() {
   const dispatch = useDispatch()
-  const chats = useSelector(({ chats }) => chats.items)
+  const joinedChats = useSelector(({ chats }) => chats.joined)
+  const availableChats = useSelector(({ chats }) => chats.available)
 
   useEffect(() => {
     dispatch(fetchChats())
@@ -18,11 +21,18 @@ function HomeView() {
   return (
         <div className="row no-gutters fh">
           <div className="col-3 fh">
-            <JoinedChatsList chats={chats} />
+            <JoinedChatsList chats={joinedChats} />
           </div>
           <div className="col-9 fh">
-            <ViewTitle text={"Choose your channel"}/>
-            <AvailableChats chats={chats} />
+            <ViewTitle text={"Choose your channel"}>
+                <Link
+                  className="btn btn-outline-primary"
+                  to="/chat-create"
+                >
+                  New
+                </Link>
+            </ViewTitle>
+            <AvailableChats chats={availableChats} />
           </div>
         </div>
   );
